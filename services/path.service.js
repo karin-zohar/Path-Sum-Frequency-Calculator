@@ -17,6 +17,7 @@ function getGrid(rawInput) {
     const allNumbers = getAllNumbers(rawInput)
     const numberOfRows = getNumberOfRows(allNumbers)
     const emptyGrid = getEmptyGrid(numberOfRows)
+    console.log('emptyGrid: ', emptyGrid)
     // TODO: populate grid
 
 }
