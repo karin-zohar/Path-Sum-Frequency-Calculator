@@ -6,8 +6,6 @@ var Fraction = algebra.Fraction;
 var Expression = algebra.Expression;
 var Equation = algebra.Equation;
 
-
-
 function formatInput(rawInput) {
     console.log('rawInput: ', rawInput)
     const grid = getGrid(rawInput)
@@ -54,7 +52,9 @@ function getNumberOfRows(allNumbers) {
     return numberOfRows
 }
 
-function getEmptyGrid(numberOfRows) {
-    const emptyGrid = Array.from({ length: numberOfRows }, () => Array(numberOfRows).fill(null))
+function getEmptyGrid(num) {
+    // Create a two-dimensional array (grid) with num as the specified number of rows and columns.
+    // Initialize each item in the grid to null.
+    const emptyGrid = Array.from({ length: num }, () => Array(num).fill(null))
     return emptyGrid
 }
