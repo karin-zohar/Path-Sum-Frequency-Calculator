@@ -2,12 +2,13 @@ export const pathService = {
     getPathsMap
 }
 
-var Fraction = algebra.Fraction;
-var Expression = algebra.Expression;
-var Equation = algebra.Equation;
-
 function getPathsMap(rawInput) {
     const grid = getGrid(rawInput)
+    const paths = getPaths(grid)
+    const pathSumFrequencyMap = getPathSumFrequencyMap(paths)
+    console.log('paths: ', paths)
+    console.log('pathSumFrequencyMap: ', pathSumFrequencyMap)
+
 }
 
 function getGrid(rawInput) {
@@ -15,8 +16,7 @@ function getGrid(rawInput) {
     const numberOfRows = getNumberOfRows(allNumbers)
     const emptyGrid = getEmptyGrid(numberOfRows)
     const populatedGrid = populateGrid(emptyGrid, allNumbers)
-    console.log('populatedGrid: ', populatedGrid)
-
+    return populatedGrid
 }
 
 // Get an array of numbers, if an item is not a number skip it. 
@@ -40,7 +40,7 @@ function getAllNumbers(rawInput) {
 function getNumberOfRows(allNumbers) {
     // Solve number of rows per this formula:
     // n(n+1) = 2 * numbersAmount
-    const {parse, Equation} = algebra 
+    const { parse, Equation } = algebra
     const numbersAmount = allNumbers.length
     let n = parse('n')
     let twoNumbersAmount = parse("2 * " + numbersAmount)
@@ -65,4 +65,47 @@ function populateGrid(emptyGrid, allNumbers) {
         })
     })
     return populatedGrid
+}
+
+function getPaths(grid, rowId = 0, cellIdx = 0, path = []) {
+    const gridLength = grid.length
+    path.push(grid[rowId][cellIdx])
+    // After reaching the last row, return the path.
+    if (rowId === gridLength - 1) {
+        return [path]
+    }
+
+    const paths = []
+    if (cellIdx + 1 < gridLength) {
+        const nextCellIdxOptions = getNextStepIdxOptions(cellIdx)
+        nextCellIdxOptions.forEach(cellIdxOption => {
+            paths.push(...getPaths(grid, rowId + 1, cellIdxOption, path.slice()))
+        })
+    }
+    return paths
+
+}
+
+function getNextStepIdxOptions(cellIdx) {
+    const stepLeftIdx = cellIdx
+    const stepRightIdx = cellIdx + 1
+    return [stepLeftIdx, stepRightIdx]
+}
+
+
+function getPathSumFrequencyMap(paths) {
+    const sums = getPathSums(paths)
+    const pathSumFrequencyMap = sums.reduce((acc, sum) => {
+        acc[sum] = (acc[sum] || 0) + 1
+        return acc
+    }, {})
+    return pathSumFrequencyMap
+}
+
+function getPathSums(paths) {
+    const sums = paths.map(path => {
+        return path.reduce((sum, item) => sum + item, 0)
+    })
+    console.log('sums: ', sums)
+    return sums
 }
