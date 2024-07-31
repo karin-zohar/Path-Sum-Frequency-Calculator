@@ -10,6 +10,7 @@ function getPathsMap(rawInput) {
     console.log('paths: ', paths)
     console.log('pathSumFrequencyMap: ', pathSumFrequencyMap)
     console.log('formattedSumsMap: ', formattedSumsMap)
+    return formattedSumsMap
 
 }
 
@@ -26,6 +27,7 @@ function getAllNumbers(rawInput) {
     const allNumbers =
         rawInput
             .replaceAll('\n', ' ')
+            .replaceAll(/\D/g, ' ')
             .split(' ')
             .map((item) => {
                 const parsedNumber = parseInt(item, 10)
@@ -35,6 +37,7 @@ function getAllNumbers(rawInput) {
                 return parsedNumber
             })
             .filter(item => item !== null)
+    console.log('allNumbers: ', allNumbers)
     return allNumbers
 }
 
@@ -85,7 +88,6 @@ function getPaths(grid, rowId = 0, cellIdx = 0, path = []) {
         })
     }
     return paths
-
 }
 
 function getNextStepIdxOptions(cellIdx) {
@@ -113,8 +115,8 @@ function getPathSums(paths) {
 
 function formatSumsMap(sumsMap) {
     const formattedSumsMap = Object.entries(sumsMap)
-    .map(([key,value]) => ({key, value}))
-    .sort((a,b) => b.value - a.value)
+        .map(([sum, count]) => ({ sum: parseInt(sum, 10), count }))
+        .sort((a, b) => b.count - a.count)
 
     return formattedSumsMap
 }

@@ -13,21 +13,29 @@
 <body class="container mt-3">
 
     <h1>Programming Task for Surpass</h1>
-    <main>
-        <div class="input-form-container my-3">
-            <form id="input-form" >
+    <main class="mb-3">
+        <section class="input-form-container my-3">
+            <form id="input-form" class="needs-validation">
                 <div class="mb-3">
                     <label for="paste-input" class="form-label">Please enter your input:</label>
-                    <textarea class="form-control" placeholder="Paste your input here" id="paste-input" style="height: 450px"></textarea>
+                    <textarea class="form-control" placeholder="Paste your input here" id="paste-input" required
+                        style="height: 450px">
+                    </textarea>
+
+                    <div class="warning invalid-feedback">
+                        Please enter an input that contains numbers.
+                    </div>
+
                 </div>
 
                 <button type="submit" class="btn btn-primary">Run</button>
             </form>
-        </div>
-        <div hidden class="output-container mt-3">
+        </section>
+        <section hidden class="output-container mt-3 overflow-y-scroll" style="max-height: 450px">
             <h2>Output:</h2>
-            <pre></pre>
-        </div>
+            <p>Sum | Count</p>
+            <ul class="result list-group"></ul>
+        </section>
     </main>
 
     <script src="./libs/algebra-0.2.6.min.js"></script>
