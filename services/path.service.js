@@ -2,10 +2,6 @@ export const pathService = {
     getPathsMap
 }
 
-var Fraction = algebra.Fraction;
-var Expression = algebra.Expression;
-var Equation = algebra.Equation;
-
 function getPathsMap(rawInput) {
     const grid = getGrid(rawInput)
 }
