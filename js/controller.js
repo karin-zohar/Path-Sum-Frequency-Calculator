@@ -17,7 +17,7 @@ function onSubmitForm(event) {
     event.preventDefault()
     const elInput = document.getElementById('paste-input') 
     const rawInput = getInput(elInput)
-    pathService.formatInput(rawInput)
+    pathService.getPathsMap(rawInput)
     const elOutputContainer = document.querySelector('.output-container')
     elOutputContainer.hidden = false
 }

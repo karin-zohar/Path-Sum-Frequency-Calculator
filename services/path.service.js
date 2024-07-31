@@ -1,13 +1,12 @@
 export const pathService = {
-    formatInput
+    getPathsMap
 }
 
 var Fraction = algebra.Fraction;
 var Expression = algebra.Expression;
 var Equation = algebra.Equation;
 
-function formatInput(rawInput) {
-    console.log('rawInput: ', rawInput)
+function getPathsMap(rawInput) {
     const grid = getGrid(rawInput)
 }
 
@@ -15,8 +14,8 @@ function getGrid(rawInput) {
     const allNumbers = getAllNumbers(rawInput)
     const numberOfRows = getNumberOfRows(allNumbers)
     const emptyGrid = getEmptyGrid(numberOfRows)
-    console.log('emptyGrid: ', emptyGrid)
-    // TODO: populate grid
+    const populatedGrid = populateGrid(emptyGrid, allNumbers)
+    console.log('populatedGrid: ', populatedGrid)
 
 }
 
@@ -34,8 +33,6 @@ function getAllNumbers(rawInput) {
                 return parsedNumber
             })
             .filter(item => item !== null)
-
-    console.log('allNumbers: ', allNumbers)
     return allNumbers
 }
 
@@ -57,4 +54,14 @@ function getEmptyGrid(num) {
     // Initialize each item in the grid to null.
     const emptyGrid = Array.from({ length: num }, () => Array(num).fill(null))
     return emptyGrid
+}
+
+function populateGrid(emptyGrid, allNumbers) {
+    const allNumbersCopy = [...allNumbers]
+    const populatedGrid = emptyGrid.map((row, rowIdx) => {
+        return row.map((item, itemIdx) => {
+            return (itemIdx <= rowIdx) ? allNumbersCopy.shift() : null
+        })
+    })
+    return populatedGrid
 }
