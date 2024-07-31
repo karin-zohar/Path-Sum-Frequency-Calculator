@@ -15,14 +15,13 @@ function onSubmitForm(event) {
     const elInput = document.getElementById('paste-input')
     const rawInput = getInput(elInput)
     if (isValidated(rawInput)) {
-        removeWarning()
+        handleWarning(true)
         const sumsMap = pathService.getPathsMap(rawInput)
         renderOutput(sumsMap)
     } else {
         event.stopPropagation()
-        showWarning()
+        handleWarning(false)
     }
-
 }
 
 function getInput(elInput) {
@@ -36,14 +35,14 @@ function isValidated(rawInput) {
     return conditions
 }
 
-function showWarning() {
-    const elInput = document.getElementById('paste-input')
-    elInput.classList.add('is-invalid')
-}
 
-function removeWarning() {
+function handleWarning(isValidated) {
     const elInput = document.getElementById('paste-input')
-    elInput.classList.remove('is-invalid')
+    if (isValidated) {
+        elInput.classList.remove('is-invalid')
+    } else {
+        elInput.classList.add('is-invalid')
+    }
 }
 
 function renderOutput(sumsMap) {
