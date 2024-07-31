@@ -7,9 +7,6 @@ function getPathsMap(rawInput) {
     const paths = getPaths(grid)
     const pathSumFrequencyMap = getPathSumFrequencyMap(paths)
     const formattedSumsMap = formatSumsMap(pathSumFrequencyMap)
-    console.log('paths: ', paths)
-    console.log('pathSumFrequencyMap: ', pathSumFrequencyMap)
-    console.log('formattedSumsMap: ', formattedSumsMap)
     return formattedSumsMap
 
 }
@@ -37,7 +34,6 @@ function getAllNumbers(rawInput) {
                 return parsedNumber
             })
             .filter(item => item !== null)
-    console.log('allNumbers: ', allNumbers)
     return allNumbers
 }
 
@@ -90,6 +86,7 @@ function getPaths(grid, rowId = 0, cellIdx = 0, path = []) {
     return paths
 }
 
+
 function getNextStepIdxOptions(cellIdx) {
     const stepLeftIdx = cellIdx
     const stepRightIdx = cellIdx + 1
@@ -109,7 +106,6 @@ function getPathSums(paths) {
     const sums = paths.map(path => {
         return path.reduce((sum, item) => sum + item, 0)
     })
-    console.log('sums: ', sums)
     return sums
 }
 
