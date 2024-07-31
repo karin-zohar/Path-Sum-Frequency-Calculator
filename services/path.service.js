@@ -23,8 +23,8 @@ function getGrid(rawInput) {
 function getAllNumbers(rawInput) {
     const allNumbers =
         rawInput
-            .replaceAll('\n', ' ')
-            .replaceAll(/\D/g, ' ')
+            .replaceAll(/\D/g, ' ') // Replace any character that is not a digit with a space.
+            .trim()
             .split(' ')
             .map((item) => {
                 const parsedNumber = parseInt(item, 10)
@@ -46,9 +46,18 @@ function getNumberOfRows(allNumbers) {
     let n = parse('n')
     let twoNumbersAmount = parse("2 * " + numbersAmount)
     let equation = new Equation(n.pow(2).add(n).subtract(twoNumbersAmount), 0)
-    let solution = equation.solveFor("n").filter(solution => solution >= 0)
-    const numberOfRows = parseInt(solution)
-    return numberOfRows
+    try {
+        let solutions = equation.solveFor("n").filter(solution => solution >= 0)
+        if (solutions.length === 0) {
+            throw new Error('No valid solution for the number of rows found.');
+        }
+        // Round to the nearest integer and select the maximum valid solution
+        const numberOfRows = Math.max(...solutions.map(Math.round))
+        // const numberOfRows = parseInt(solution)
+        return numberOfRows
+    } catch (error) {
+        console.error('Error calculating number of rows:', error.message)
+    }
 }
 
 function getEmptyGrid(num) {
