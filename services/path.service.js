@@ -2,6 +2,10 @@ export const pathService = {
     getPathsMap
 }
 
+var Fraction = algebra.Fraction;
+var Expression = algebra.Expression;
+var Equation = algebra.Equation;
+
 function getPathsMap(rawInput) {
     const grid = getGrid(rawInput)
 }
@@ -34,12 +38,13 @@ function getAllNumbers(rawInput) {
 
 
 function getNumberOfRows(allNumbers) {
-    const numbersAmount = allNumbers.length
     // Solve number of rows per this formula:
     // n(n+1) = 2 * numbersAmount
-    let n = algebra.parse('n')
-    let twoNumbersAmount = algebra.parse("2 * " + numbersAmount)
-    let equation = new algebra.Equation(n.pow(2).add(n).subtract(twoNumbersAmount), 0)
+    const {parse, Equation} = algebra 
+    const numbersAmount = allNumbers.length
+    let n = parse('n')
+    let twoNumbersAmount = parse("2 * " + numbersAmount)
+    let equation = new Equation(n.pow(2).add(n).subtract(twoNumbersAmount), 0)
     let solution = equation.solveFor("n").filter(solution => solution >= 0)
     const numberOfRows = parseInt(solution)
     return numberOfRows
