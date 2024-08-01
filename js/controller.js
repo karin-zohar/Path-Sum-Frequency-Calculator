@@ -1,10 +1,8 @@
 import { pathService } from "../services/path.service.js"
-// window.onload = onInit
+
 document.addEventListener('DOMContentLoaded', onInit);
 
-
 function onInit() {
-    console.log('hi')
     addListeners()
 }
 
@@ -19,8 +17,14 @@ function onSubmitForm(event) {
     const rawInput = getInputValue(elInput)
     if (isValid(rawInput)) {
         handleWarning(elInput, true)
-        const sumsMap = pathService.getPathsMap(rawInput)
-        renderOutput(sumsMap)
+        try {
+            const sumsMap = pathService.getPathsMap(rawInput)
+            console.log('sumsMap: ', sumsMap)
+            renderOutput(sumsMap)
+        } catch (error) {
+            console.error('Error getting paths map: ', error)
+            showErrorToast()
+        }
     } else {
         handleWarning(elInput, false)
     }
@@ -43,6 +47,12 @@ function handleWarning(el, isValid) {
     } else {
         el.classList.add('is-invalid')
     }
+}
+
+function showErrorToast() {
+    const elErrorToast = document.getElementById('error-toast')
+    const toastBootstrap = new bootstrap.Toast(elErrorToast)
+    toastBootstrap.show()
 }
 
 function renderOutput(sumsMap) {

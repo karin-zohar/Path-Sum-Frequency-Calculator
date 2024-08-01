@@ -3,19 +3,29 @@ export const pathService = {
 }
 
 function getPathsMap(rawInput) {
-    const grid = getGrid(rawInput)
-    const paths = getPaths(grid)
-    const pathSumFrequencyMap = getPathSumFrequencyMap(paths)
-    const formattedSumsMap = formatSumsMap(pathSumFrequencyMap)
-    return formattedSumsMap
+    try {
+        const grid = getGrid(rawInput)
+        const paths = getPaths(grid)
+        const pathSumFrequencyMap = getPathSumFrequencyMap(paths)
+        const formattedSumsMap = formatSumsMap(pathSumFrequencyMap)
+        return formattedSumsMap
+    } catch (error) {
+        console.error('Error in getPathsMap:', error)
+        throw new Error('Failed to generate paths map')
+    }
 }
 
 function getGrid(rawInput) {
-    const allNumbers = getAllNumbers(rawInput)
-    const numberOfRows = getNumberOfRows(allNumbers)
-    const emptyGrid = getEmptyGrid(numberOfRows)
-    const populatedGrid = populateGrid(emptyGrid, allNumbers)
-    return populatedGrid
+    try {
+        const allNumbers = getAllNumbers(rawInput)
+        const numberOfRows = getNumberOfRows(allNumbers)
+        const emptyGrid = getEmptyGrid(numberOfRows)
+        const populatedGrid = populateGrid(emptyGrid, allNumbers)
+        return populatedGrid
+    } catch (error) {
+        console.error('Error in getGrid:', error)
+        throw new Error('Failed to create grid')
+    }
 }
 
 // Get an array of numbers, if an item is not a number skip it. 
@@ -36,7 +46,6 @@ function getAllNumbers(rawInput) {
     return allNumbers
 }
 
-
 function getNumberOfRows(allNumbers) {
     // Solve number of rows per this formula:
     // n(n+1) = 2 * numbersAmount
@@ -52,7 +61,6 @@ function getNumberOfRows(allNumbers) {
         }
         // Round to the nearest integer and select the maximum valid solution
         const numberOfRows = Math.max(...solutions.map(Math.round))
-        // const numberOfRows = parseInt(solution)
         return numberOfRows
     } catch (error) {
         console.error('Error calculating number of rows:', error.message)
@@ -76,24 +84,30 @@ function populateGrid(emptyGrid, allNumbers) {
     return populatedGrid
 }
 
-function getPaths(grid, rowId = 0, cellIdx = 0, path = []) {
-    const gridLength = grid.length
-    path.push(grid[rowId][cellIdx])
-    // After reaching the last row, return the path.
-    if (rowId === gridLength - 1) {
-        return [path]
-    }
+function getPaths(grid, rowIdx = 0, cellIdx = 0, path = []) {
+    try {
+        const gridLength = grid.length
+        path.push(grid[rowIdx][cellIdx])
+        // After reaching the last row, return the path.
+        if (rowIdx === gridLength - 1) {
+            return [path]
+        }
 
-    const paths = []
-    if (cellIdx + 1 < gridLength) {
-        const nextCellIdxOptions = getNextStepIdxOptions(cellIdx)
-        nextCellIdxOptions.forEach(cellIdxOption => {
-            paths.push(...getPaths(grid, rowId + 1, cellIdxOption, path.slice()))
-        })
+        const paths = []
+        if (cellIdx + 1 < gridLength) {
+            const nextCellIdxOptions = getNextStepIdxOptions(cellIdx)
+            nextCellIdxOptions.forEach(cellIdxOption => {
+                if (grid[rowIdx + 1][cellIdxOption]) {
+                    paths.push(...getPaths(grid, rowIdx + 1, cellIdxOption, path.slice()))
+                }
+            })
+        }
+        return paths
+    } catch (error) {
+        console.error('Error in getPaths:', error)
+        throw new Error('Failed to get paths')
     }
-    return paths
 }
-
 
 function getNextStepIdxOptions(cellIdx) {
     const stepLeftIdx = cellIdx

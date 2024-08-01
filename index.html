@@ -36,9 +36,21 @@
             <p>Sum | Count</p>
             <ul class="result list-group"></ul>
         </section>
+
+        <div id="error-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" style="z-index: 10;">
+            <div class="toast-header">
+              <strong class="me-auto">Something wrong</strong>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+              This didn't work, please try again.
+            </div>
+          </div>
+
     </main>
 
     <script src="./libs/algebra-0.2.6.min.js"></script>
+    <script src="./libs/bootstrap.bundle.min.js"></script>
     <script type="module" src="js/controller.js"></script>
 
 </body>
