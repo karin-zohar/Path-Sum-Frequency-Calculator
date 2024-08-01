@@ -1,7 +1,10 @@
 import { pathService } from "../services/path.service.js"
-window.onload = onInit
+// window.onload = onInit
+document.addEventListener('DOMContentLoaded', onInit);
+
 
 function onInit() {
+    console.log('hi')
     addListeners()
 }
 
@@ -13,18 +16,17 @@ function addListeners() {
 function onSubmitForm(event) {
     event.preventDefault()
     const elInput = document.getElementById('paste-input')
-    const rawInput = getInput(elInput)
+    const rawInput = getInputValue(elInput)
     if (isValid(rawInput)) {
-        handleWarning(true)
+        handleWarning(elInput, true)
         const sumsMap = pathService.getPathsMap(rawInput)
         renderOutput(sumsMap)
     } else {
-        event.stopPropagation()
-        handleWarning(false)
+        handleWarning(elInput, false)
     }
 }
 
-function getInput(elInput) {
+function getInputValue(elInput) {
     const inputValue = elInput.value
     return inputValue
 }
@@ -35,12 +37,11 @@ function isValid(rawInput) {
     return conditions
 }
 
-function handleWarning(isValid) {
-    const elInput = document.getElementById('paste-input')
+function handleWarning(el, isValid) {
     if (isValid) {
-        elInput.classList.remove('is-invalid')
+        el.classList.remove('is-invalid')
     } else {
-        elInput.classList.add('is-invalid')
+        el.classList.add('is-invalid')
     }
 }
 
@@ -59,9 +60,6 @@ function renderOutput(sumsMap) {
         </li>
         `
     }
-        
     )
-
     elResult.innerHTML = strHTMLs.join('')
-
 }

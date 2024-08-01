@@ -8,7 +8,6 @@ function getPathsMap(rawInput) {
     const pathSumFrequencyMap = getPathSumFrequencyMap(paths)
     const formattedSumsMap = formatSumsMap(pathSumFrequencyMap)
     return formattedSumsMap
-
 }
 
 function getGrid(rawInput) {
@@ -122,6 +121,5 @@ function formatSumsMap(sumsMap) {
     const formattedSumsMap = Object.entries(sumsMap)
         .map(([sum, count]) => ({ sum: parseInt(sum, 10), count }))
         .sort((a, b) => b.count - a.count)
-
     return formattedSumsMap
 }
